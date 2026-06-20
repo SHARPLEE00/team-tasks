@@ -9,15 +9,17 @@ Aximora 出海数据采集统一接口
   - UN Comtrade      全球贸易数据 (HS编码级别)
   - World Bank       宏观经济指标
   - OECD             OECD国家经济/贸易数据
-  - China Data Portal 中国海关月度进出口
+  - China Data Portal 中国海关月度进出口 + 118个数据集
   - Google Trends    搜索趋势 (via pytrends)
   - ExchangeRate API 汇率数据
 
 低成本层 (需 API Key):
   - DataForSEO       电商产品/SERP数据 ($0.001/次)
   - EchoTik          TikTok Shop 数据 ($9.9/月起)
-  - Keepa            Amazon 价格历史 (€19/月)
-  - Freightos        国际运费指数
+  - TikHub           16+社媒平台数据 (TikTok/抖音/小红书/IG/YT)
+
+智能路由:
+  - ResearchRouter   根据调研主题自动选择最优数据源组合
 """
 
 from .un_comtrade import UNComtradeConnector
@@ -28,7 +30,9 @@ from .google_trends import GoogleTrendsConnector
 from .exchange_rate import ExchangeRateConnector
 from .dataforseo import DataForSEOConnector
 from .echotik import EchoTikConnector
+from .tikhub import TikHubConnector
 from .registry import ConnectorRegistry, get_registry
+from .router import ResearchRouter
 
 __all__ = [
     "UNComtradeConnector",
@@ -39,6 +43,8 @@ __all__ = [
     "ExchangeRateConnector",
     "DataForSEOConnector",
     "EchoTikConnector",
+    "TikHubConnector",
     "ConnectorRegistry",
     "get_registry",
+    "ResearchRouter",
 ]

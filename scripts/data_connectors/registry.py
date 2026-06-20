@@ -32,6 +32,7 @@ from .google_trends import GoogleTrendsConnector
 from .exchange_rate import ExchangeRateConnector
 from .dataforseo import DataForSEOConnector
 from .echotik import EchoTikConnector
+from .tikhub import TikHubConnector
 
 
 class ConnectorRegistry:
@@ -66,6 +67,9 @@ class ConnectorRegistry:
 
         echotik_key = os.environ.get("ECHOTIK_API_KEY")
         self.register(EchoTikConnector(api_key=echotik_key))
+
+        tikhub_key = os.environ.get("TIKHUB_API_KEY")
+        self.register(TikHubConnector(api_key=tikhub_key))
 
     def register(self, connector: BaseConnector):
         self._connectors[connector.name] = connector

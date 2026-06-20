@@ -33,6 +33,8 @@ from .exchange_rate import ExchangeRateConnector
 from .dataforseo import DataForSEOConnector
 from .echotik import EchoTikConnector
 from .tikhub import TikHubConnector
+from .frankfurter import FrankfurterConnector
+from .coingecko import CoinGeckoConnector
 
 
 class ConnectorRegistry:
@@ -53,6 +55,8 @@ class ConnectorRegistry:
         self.register(ChinaDataPortalConnector())
         self.register(GoogleTrendsConnector())
         self.register(ExchangeRateConnector())
+        self.register(FrankfurterConnector())
+        self.register(CoinGeckoConnector())
 
         # === 低成本层 (需 Key) ===
         dataforseo_login = os.environ.get("DATAFORSEO_LOGIN")

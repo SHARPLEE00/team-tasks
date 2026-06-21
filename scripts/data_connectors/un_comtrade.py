@@ -255,6 +255,93 @@ class UNComtradeConnector(BaseConnector):
         except Exception as e:
             return DataResult(source=self.name, query=query_desc, data=[], error=str(e))
 
+    # ── Tools API v1 ─────────────────────────────────
+
+    def get_bilateral(
+        self,
+        reporter: str = "156",
+        partner: str = "842",
+        hs_code: str = "8525",
+        period: str = "2023",
+        trade_flow: str = "X",
+        freq: str = "A",
+    ) -> DataResult:
+        """
+        双边贸易对比（报告方数据 vs 镜像伙伴方数据），需Key。
+        Tools API v1: /tools/v1/getBilateralData/
+
+        Args:
+            reporter: 报告国
+            partner: 伙伴国
+            hs_code: HS编码
+            period: 时间
+            trade_flow: X=出口, M=进口
+        """
+        if not self.api_key:
+            return DataResult(
+                source=self.name, query={}, data=[],
+                error="Needs subscription key. Register: https://comtradedeveloper.un.org/",
+            )
+        lib = self._get_lib()
+        query_desc = {
+            "reporter": reporter, "partner": partner,
+            "hs_code": hs_code, "period": period, "type": "bilateral",
+        }
+        try:
+            df = lib.getBilateralData(
+                self.api_key, typeCode="C", freqCode=freq, clCode="HS",
+                period=period, reporterCode=reporter, cmdCode=hs_code,
+                flowCode=trade_flow, partnerCode=partner,
+                includeDesc=True,
+            )
+            records = self._df_to_records(df)
+            return DataResult(source=self.name, query=query_desc, data=records,
+                              metadata={"total_records": len(records)})
+        except Exception as e:
+            return DataResult(source=self.name, query=query_desc, data=[], error=str(e))
+
+    def get_suv(
+        self,
+        hs_code: str = "010391",
+        period: str = "2022",
+        reporter: str | None = None,
+    ) -> DataResult:
+        """
+        标准单位值 (Standard Unit Value)，需Key。
+
+        Args:
+            hs_code: HS编码 (6位)
+            period: 年份
+            reporter: 报告国 (None=全球)
+        """
+        if not self.api_key:
+            return DataResult(source=self.name, query={}, data=[], error="Needs subscription key")
+        lib = self._get_lib()
+        query_desc = {"hs_code": hs_code, "period": period, "type": "suv"}
+        try:
+            df = lib.getSUV(
+                self.api_key, typeCode="C", freqCode="A", clCode="HS",
+                cmdCode=hs_code, period=period, reporterCode=reporter,
+                includeDesc=True,
+            )
+            records = self._df_to_records(df)
+            return DataResult(source=self.name, query=query_desc, data=records,
+                              metadata={"total_records": len(records)})
+        except Exception as e:
+            return DataResult(source=self.name, query=query_desc, data=[], error=str(e))
+
+    def get_live_updates(self) -> DataResult:
+        """获取最近发布的数据更新，需Key。"""
+        if not self.api_key:
+            return DataResult(source=self.name, query={}, data=[], error="Needs subscription key")
+        lib = self._get_lib()
+        try:
+            df = lib.getLiveUpdate(self.api_key)
+            records = self._df_to_records(df)
+            return DataResult(source=self.name, query={"action": "live_updates"}, data=records)
+        except Exception as e:
+            return DataResult(source=self.name, query={}, data=[], error=str(e))
+
     # ── 工具方法 ────────────────────────────────────
 
     def convert_country(self, iso3_codes: str) -> str:

@@ -37,6 +37,7 @@ from .frankfurter import FrankfurterConnector
 from .coingecko import CoinGeckoConnector
 from .fred import FREDConnector
 from .wto import WTOConnector
+from .alpha_vantage import AlphaVantageConnector
 
 
 class ConnectorRegistry:
@@ -68,6 +69,10 @@ class ConnectorRegistry:
         wto_key = os.environ.get("WTO_API_KEY")
         if wto_key:
             self.register(WTOConnector(api_key=wto_key))
+
+        av_key = os.environ.get("ALPHA_VANTAGE_KEY")
+        if av_key:
+            self.register(AlphaVantageConnector(api_key=av_key))
 
         # === 低成本层 (需 Key) ===
         dataforseo_login = os.environ.get("DATAFORSEO_LOGIN")

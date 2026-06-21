@@ -127,6 +127,30 @@ TOPIC_TAGS = {
         ],
         "desc": "特定国家/区域市场分析",
     },
+    # 大宗商品/期货
+    "commodities": {
+        "keywords": [
+            "大宗", "commodity", "commodities", "期货", "futures",
+            "石油", "oil", "wti", "brent", "原油", "crude",
+            "铜", "copper", "铝", "aluminum", "黄金", "gold",
+            "小麦", "wheat", "玉米", "corn", "棉花", "cotton",
+            "大豆", "soybean", "糖", "sugar", "咖啡", "coffee",
+            "天然气", "natural gas", "铁矿", "iron ore",
+        ],
+        "desc": "大宗商品价格/期货/原材料",
+    },
+    # 金融/股票
+    "finance_stock": {
+        "keywords": [
+            "股票", "stock", "stocks", "个股", "equity", "equities",
+            "市值", "market cap", "pe", "eps", "财报", "earnings",
+            "k线", "k-line", "技术指标", "technical", "macd", "rsi",
+            "etf", "基金", "fund", "指数", "index", "标普", "s&p",
+            "纳斯达克", "nasdaq", "道琼斯", "dow jones",
+            "ipo", "上市", "分红", "dividend",
+        ],
+        "desc": "股票行情/财报/技术指标/ETF",
+    },
 }
 
 
@@ -176,6 +200,7 @@ ROUTE_TABLE: dict[str, list[tuple[str, str, int, str]]] = {
         ("world_bank",        "query",                       1, "free"),
         ("exchange_rate",     "query",                       1, "free"),
         ("fred",              "query",                       1, "free"),
+        ("alpha_vantage",     "econ_cpi",                    1, "free"),
         ("china_data_portal", "query",                       2, "free"),
         ("oecd",              "query",                       3, "free"),
     ],
@@ -205,6 +230,23 @@ ROUTE_TABLE: dict[str, list[tuple[str, str, int, str]]] = {
         ("exchange_rate",     "query",                       3, "free"),
         ("google_trends",     "query",                       3, "free"),
         ("tikhub",            "tiktok_search_video",         4, "low_cost"),
+    ],
+    "commodities": [
+        ("alpha_vantage",     "commodity_wti",               1, "free"),
+        ("alpha_vantage",     "commodity_copper",            1, "free"),
+        ("alpha_vantage",     "commodity_all_index",         1, "free"),
+        ("alpha_vantage",     "fx_rate",                     2, "free"),
+        ("world_bank",        "query",                       3, "free"),
+        ("google_trends",     "query",                       4, "free"),
+    ],
+    "finance_stock": [
+        ("alpha_vantage",     "stock_quote",                 1, "free"),
+        ("alpha_vantage",     "stock_overview",              1, "free"),
+        ("alpha_vantage",     "stock_search",                1, "free"),
+        ("alpha_vantage",     "econ_treasury_yield",         2, "free"),
+        ("alpha_vantage",     "econ_fed_funds_rate",         2, "free"),
+        ("google_trends",     "query",                       3, "free"),
+        ("dataforseo",        "serp_search",                 4, "low_cost"),
     ],
 }
 

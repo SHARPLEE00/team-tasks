@@ -33,6 +33,7 @@ from .exchange_rate import ExchangeRateConnector
 from .frankfurter import FrankfurterConnector
 from .coingecko import CoinGeckoConnector
 from .fred import FREDConnector
+from .wto import WTOConnector
 from .dataforseo import DataForSEOConnector
 from .echotik import EchoTikConnector
 from .tikhub import TikHubConnector
@@ -49,6 +50,7 @@ __all__ = [
     "FrankfurterConnector",
     "CoinGeckoConnector",
     "FREDConnector",
+    "WTOConnector",
     "DataForSEOConnector",
     "EchoTikConnector",
     "TikHubConnector",

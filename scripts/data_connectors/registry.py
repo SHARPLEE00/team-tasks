@@ -36,6 +36,7 @@ from .tikhub import TikHubConnector
 from .frankfurter import FrankfurterConnector
 from .coingecko import CoinGeckoConnector
 from .fred import FREDConnector
+from .wto import WTOConnector
 
 
 class ConnectorRegistry:
@@ -63,6 +64,10 @@ class ConnectorRegistry:
         fred_key = os.environ.get("FRED_API_KEY")
         if fred_key:
             self.register(FREDConnector(api_key=fred_key))
+
+        wto_key = os.environ.get("WTO_API_KEY")
+        if wto_key:
+            self.register(WTOConnector(api_key=wto_key))
 
         # === 低成本层 (需 Key) ===
         dataforseo_login = os.environ.get("DATAFORSEO_LOGIN")

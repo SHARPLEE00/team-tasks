@@ -305,24 +305,43 @@ class WTOConnector(BaseConnector):
 
     # ── 常用指标代码 ────────────────────────────────
 
-    IND_MERCHANDISE_IMPORTS = "HS_M_0010"      # 商品进口额
-    IND_MERCHANDISE_EXPORTS = "HS_M_0020"      # 商品出口额
-    IND_TARIFF_APPLIED_SIMPLE = "HS_A_0010"    # 简单平均适用关税
-    IND_TARIFF_MFN_SIMPLE = "HS_M_0050"        # MFN简单平均关税
-    IND_SERVICES_IMPORTS = "S_M_0010"          # 服务进口
-    IND_SERVICES_EXPORTS = "S_M_0020"          # 服务出口
+    # 关税指标 (实测确认可用)
+    IND_MFN_SIMPLE_AVG_ALL = "TP_A_0010"         # 简单平均MFN关税 - 全产品
+    IND_MFN_SIMPLE_AVG_AG = "TP_A_0160"          # 简单平均MFN关税 - 农产品
+    IND_MFN_SIMPLE_AVG_NONAG = "TP_A_0430"       # 简单平均MFN关税 - 非农产品
+    IND_MFN_WEIGHTED_AVG_ALL = "TP_A_0030"       # 贸易加权MFN关税 - 全产品
+    IND_MFN_WEIGHTED_AVG_AG = "TP_A_0170"        # 贸易加权MFN关税 - 农产品
+    IND_MFN_WEIGHTED_AVG_NONAG = "TP_A_0440"     # 贸易加权MFN关税 - 非农产品
+
+    # HS编码级别关税
+    IND_HS_MFN_SIMPLE = "HS_A_0010"              # HS MFN 简单平均从价税
+    IND_HS_MFN_MAX = "HS_A_0020"                 # HS MFN 最高从价税
+    IND_HS_MFN_DUTY_FREE = "HS_A_0030"           # HS MFN 免税比例
+    IND_HS_MFN_TARIFF_LINES = "HS_A_0040"        # HS MFN 税则数量
 
     # ── 快捷方法 ────────────────────────────────────
 
-    def get_china_trade(self, indicator: str = "HS_M_0020", year: str | None = None) -> DataResult:
-        """快捷：查中国贸易数据。"""
-        return self.get_data(indicator_code=indicator, reporting_economy="156", time_period=year)
-
-    def get_tariffs(self, reporter: str = "156", product: str | None = None, year: str | None = None) -> DataResult:
-        """快捷：查关税数据。"""
+    def get_tariffs(self, reporter: str = "156", year: str | None = None) -> DataResult:
+        """快捷：查某国MFN平均关税。"""
         return self.get_data(
-            indicator_code=self.IND_TARIFF_APPLIED_SIMPLE,
+            indicator_code=self.IND_MFN_SIMPLE_AVG_ALL,
             reporting_economy=reporter,
-            product_sector=product,
+            time_period=year,
+        )
+
+    def get_tariffs_by_sector(self, reporter: str = "156", year: str | None = None) -> DataResult:
+        """快捷：查某国农产品vs非农产品关税对比。"""
+        # 查农产品关税
+        return self.get_data(
+            indicator_code=self.IND_MFN_SIMPLE_AVG_AG,
+            reporting_economy=reporter,
+            time_period=year,
+        )
+
+    def compare_tariffs(self, countries: str = "156,842,704", year: str | None = None) -> DataResult:
+        """快捷：对比多国MFN关税。"""
+        return self.get_data(
+            indicator_code=self.IND_MFN_SIMPLE_AVG_ALL,
+            reporting_economy=countries,
             time_period=year,
         )

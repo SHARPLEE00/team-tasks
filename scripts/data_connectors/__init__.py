@@ -32,6 +32,7 @@ from .google_trends import GoogleTrendsConnector
 from .exchange_rate import ExchangeRateConnector
 from .frankfurter import FrankfurterConnector
 from .coingecko import CoinGeckoConnector
+from .fred import FREDConnector
 from .dataforseo import DataForSEOConnector
 from .echotik import EchoTikConnector
 from .tikhub import TikHubConnector
@@ -47,6 +48,7 @@ __all__ = [
     "ExchangeRateConnector",
     "FrankfurterConnector",
     "CoinGeckoConnector",
+    "FREDConnector",
     "DataForSEOConnector",
     "EchoTikConnector",
     "TikHubConnector",

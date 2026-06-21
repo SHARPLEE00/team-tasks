@@ -174,6 +174,7 @@ ROUTE_TABLE: dict[str, list[tuple[str, str, int, str]]] = {
     "macro_economy": [
         ("world_bank",        "query",                       1, "free"),
         ("exchange_rate",     "query",                       1, "free"),
+        ("fred",              "query",                       1, "free"),
         ("china_data_portal", "query",                       2, "free"),
         ("oecd",              "query",                       3, "free"),
     ],
@@ -197,6 +198,7 @@ ROUTE_TABLE: dict[str, list[tuple[str, str, int, str]]] = {
     ],
     "market_country": [
         ("world_bank",        "query",                       1, "free"),
+        ("fred",              "search",                      1, "free"),
         ("un_comtrade",       "query",                       2, "free"),
         ("china_data_portal", "get_trade_monthly",           2, "free"),
         ("exchange_rate",     "query",                       3, "free"),

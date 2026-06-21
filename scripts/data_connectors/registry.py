@@ -35,6 +35,7 @@ from .echotik import EchoTikConnector
 from .tikhub import TikHubConnector
 from .frankfurter import FrankfurterConnector
 from .coingecko import CoinGeckoConnector
+from .fred import FREDConnector
 
 
 class ConnectorRegistry:
@@ -57,6 +58,11 @@ class ConnectorRegistry:
         self.register(ExchangeRateConnector())
         self.register(FrankfurterConnector())
         self.register(CoinGeckoConnector())
+
+        # === 免费层 (需注册Key，但免费无限调用) ===
+        fred_key = os.environ.get("FRED_API_KEY")
+        if fred_key:
+            self.register(FREDConnector(api_key=fred_key))
 
         # === 低成本层 (需 Key) ===
         dataforseo_login = os.environ.get("DATAFORSEO_LOGIN")
